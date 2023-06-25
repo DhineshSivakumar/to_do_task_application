@@ -161,7 +161,7 @@ function App() {
     <div className='container'>
       <div className="row my-5">
         <div className="col-9 text-start fw-bold fs-3 text-capitalize">
-          Task List
+          TO DO Task List
         </div>
         <div className="col-3 text-end">
           {taskData.length ? <button className="btn btn-primary fw-bold" onClick={() => { setAddTask(true) }}>Add task</button> : null}
