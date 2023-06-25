@@ -77,7 +77,7 @@ function App() {
         color: '#000',
         fontWeight: "bolder",
         fontSize: "16px",
-        borderBottom: "1px solid black"
+        border: "1px solid black",
       },
     },
     rows: {
@@ -85,35 +85,53 @@ function App() {
         color: "#000",
         backgroundColor: "#fff",
         fontSize: "16px",
-        minHeight: '55px'
+        minHeight: '55px',
+        border: "1px solid black",
       }
     },
-
   }
+
+  const conditionalRowStyles = [
+    {
+      when: row => row.checkbox && row.checkbox.props.checked,
+      style: {
+        backgroundColor: 'green',
+        color: 'white',
+        '&:hover': {
+          cursor: 'pointer',
+        },
+      },
+    },
+  ];
 
   const columns = [
     {
       name: 'Task name',
       selector: row => row.task_name,
+      wrap: true
     },
     {
       name: 'Description',
       selector: row => row.description,
+      wrap: true
     },
     {
       name: 'Due date',
       selector: row => row.due_date,
       center: true,
+      wrap: true
     },
     {
       name: 'Completed',
       selector: row => row.checkbox,
-      center: true
+      center: true,
+      wrap: true
     },
     {
       name: '',
       selector: row => row.delete,
-      center: true
+      center: true,
+      wrap: true
     },
   ];
 
@@ -126,10 +144,11 @@ function App() {
         <Checkbox
           {...label}
           checked={item.check}
+          color="default"
           onChange={(event) => handleChange(event, item)}
         />
       ),
-      delete: <span onClick={() => handleDelete(item)}><i className="bi bi-trash" style={{ fontSize: "23px", color: "red" }}></i></span>
+      delete: <button className='btn btn-none' onClick={() => handleDelete(item)}><i className="bi bi-trash" style={{ fontSize: "20px", color: "red" }}></i></button>
     };
   }) : null;
 
@@ -145,13 +164,17 @@ function App() {
           pagination
           paginationPerPage={10}
           paginationRowsPerPageOptions={[10, 25, 50]}
+          conditionalRowStyles={conditionalRowStyles}
         />
       );
     } else {
       return (
         <div className='container' style={styleMessage}>
-          <p className='fw-bold'>No data available. Click the button below to add your task.</p>
-          <button className='btn btn-primary fw-bold' onClick={() => setAddTask(true)}>Add task</button>
+          <h4 className='my-3 text-capitalize fw-bold'>Welcome to Task Application</h4>
+          <i className="bi bi-brightness-alt-high-fill" style={{ fontSize: '100px', color: '#FFE87C' }}></i>
+          <p className='my-2' style={{ fontFamily: "monospace", color: 'darkblue' }}>Here you want to add your To do task</p>
+          <p className='fw-bold' style={{ color: 'darkslategray' }}>No data available. <br /> Click the button below to add your task.</p>
+          <button className='btn btn-primary fw-bold my-2' onClick={() => setAddTask(true)}>Add task</button>
         </div>
       );
     }
@@ -160,10 +183,10 @@ function App() {
   return (
     <div className='container'>
       <div className="row my-5">
-        <div className="col-9 text-start fw-bold fs-3 text-capitalize">
-          TO DO Task List
+        <div className="col-7 text-start fw-bold fs-3 text-capitalize text-wrap">
+          To Do Task List
         </div>
-        <div className="col-3 text-end">
+        <div className="col-5 text-end">
           {taskData.length ? <button className="btn btn-primary fw-bold" onClick={() => { setAddTask(true) }}>Add task</button> : null}
         </div>
       </div>
@@ -176,14 +199,12 @@ function App() {
           setAddTask(false);
         }}
       />
-      {showConfirmation && (
-        <ConfirmationDialog
-          displayDelete={showConfirmation}
-          isOpen={showConfirmation}
-          onConfirm={handleConfirmDelete}
-          onCancel={handleCancelDelete}
-        />
-      )}
+      <ConfirmationDialog
+        displayDelete={showConfirmation}
+        isOpen={showConfirmation}
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+      />
     </div>
   );
 }

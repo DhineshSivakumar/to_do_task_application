@@ -74,8 +74,8 @@ export function Addtask(props) {
     }
     };
 
-    const styleName = "ms-2 rounded border border-2 border-primary py-1 w-100";
-    const styleNameError = "ms-2 rounded border border-2 border-danger py-1 w-100";
+    const styleName = "ms-2 rounded border border-2 border-primary py-1 px-2 w-100";
+    const styleNameError = "ms-2 rounded border border-2 border-danger py-1 px-2 w-100";
 
     return (
         <Dialog
